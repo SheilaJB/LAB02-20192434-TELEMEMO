@@ -1,14 +1,17 @@
 package com.example.telememo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ private GridLayout  gridPalabras;//Seleccionar temática
         tematicaSeleccionada = getIntent().getStringExtra("tematica");
         gridPalabras = findViewById(R.id.gridPalabras); como soluciono el error?
     * Promt: como puedo tomar tiempo de la duracion de la partida? para mostrarlo en mensajes
+    *
+    *Promt: cuando presiono el boton de retroceder en el manu_estadistica, se detiene la simulacion.
+    * a que se debe el problema?
     * */
 
     private GridLayout   gridPalabras;
@@ -41,7 +47,31 @@ private GridLayout  gridPalabras;//Seleccionar temática
     private long tiempoInicio;
     private long tiempoFin;
 
+    //Indicador si el juego terminó o no
+    private boolean juegoTerminado = false;
+
+
     //menuu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_game, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        int id = item.getItemId();
+        if (id == R.id.action_estadisticas) {
+            Intent intent = new Intent(this, EstadisticasActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_reproceso) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
@@ -63,21 +93,17 @@ private GridLayout  gridPalabras;//Seleccionar temática
         btnJugar = findViewById(R.id.btnJugar);
         btnJugar.setOnClickListener(v -> {
             // Al presionar el botón "Iniciar" o "Nuevo juego", debería reiniciar la partida
-            reiniciarJuego();
+            iniciarNuevoJuego();
         });
 
-        // Botón Atrás
-        Button bttnAtras = findViewById(R.id.bttnAtras);
-        bttnAtras.setOnClickListener(v -> {
-            finish();
-        });
-        // Botón Estadística
-        Button bttnEstadistica = findViewById(R.id.bttnEstadistica);
-        //Falta completar lógica de estadística
+        //menu
+        Toolbar toolbar = findViewById(R.id.topToolbar);
+        setSupportActionBar(toolbar);
+
+
 
         //Texto de mensajes
         textViewMensajes = findViewById(R.id.textViewMensajes);
-
 
         // Inicializar juego
         inicializarJuego();
@@ -99,8 +125,27 @@ private GridLayout  gridPalabras;//Seleccionar temática
     }
 
     private void reiniciarJuego() {
+        //Si aun no termina el juego
+        if (!juegoTerminado) {
+            cancelarJuegoActual();
+        }else {
+            inicializarJuego();
+        }
+    }
+
+    private void cancelarJuegoActual(){
+        registrarEstadistica("Canceló");
+        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    private void iniciarNuevoJuego(){
+
         intentos = 0;
         seleccionUsuario.clear();
+        juegoTerminado = false;
+        tiempoInicio = System.currentTimeMillis();
+
         // Cargar nuevas palabras
         palabrasDesordenadas = new ArrayList<>(oracionCorrecta);
         Collections.shuffle(palabrasDesordenadas);
@@ -112,6 +157,12 @@ private GridLayout  gridPalabras;//Seleccionar temática
 
         // Limpiar el mensaje en el TextView
         textViewMensajes.setText("¡Juega de nuevo!");
+    }
+
+    private void registrarEstadistica(String resultado) {
+        Log.d("Estadística", "Resultado: " + resultado + ", Temática: " + tematicaSeleccionada);
+
+
     }
 
     private List<String> obtenerOracionCorrecta(String tematica) {
@@ -180,6 +231,7 @@ private GridLayout  gridPalabras;//Seleccionar temática
                 textViewMensajes.setText("GANO /Duración: " + tiempoTranscurrido + " segundos.");
                 textViewMensajes.setText("Número de Intentos: " + intentos);
 
+                juegoTerminado = true;
 
                 // Mostrar mensaje en el TextView
                 textViewMensajes.setText("¡Correcto! Has completado la oración :D.");
@@ -203,7 +255,7 @@ private GridLayout  gridPalabras;//Seleccionar temática
                 //mostrarMensaje("Juego terminado. Se acabaron los intentos :(.");
                 textViewMensajes.setText("Juego terminado. Se acabaron los intentos :(");
                 textViewMensajes.setText("PERDIO / Duración: " + tiempoTranscurrido + " segundos.");
-
+                juegoTerminado = true;
                 btnJugar.setText("Nuevo juego");
                 btnJugar.setVisibility(View.VISIBLE);
                 deshabilitarBotones();

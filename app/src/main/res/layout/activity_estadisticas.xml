@@ -7,28 +7,31 @@
     android:background="@color/design_default_color_on_primary"
     tools:context=".EstadisticasActivity">
 
-    <!-- Rectángulo superior para el título -->
-    <View
-        android:id="@+id/topRectangle"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="#003049"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Título de la actividad -->
     <TextView
-        android:id="@+id/tvTitulo"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvTituloHistorial"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Estadísticas"
-        android:textColor="#FFFFFF"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="HISTORIAL"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@id/topRectangle"
-        app:layout_constraintEnd_toEndOf="@id/topRectangle"
-        app:layout_constraintStart_toStartOf="@id/topRectangle"
-        app:layout_constraintTop_toTopOf="@id/topRectangle" />
+        android:textStyle="bold"
+        android:textColor="#003049"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- RecyclerView para mostrar las estadísticas -->
     <androidx.recyclerview.widget.RecyclerView
@@ -42,7 +45,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnNuevoJuego"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topRectangle" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <!-- Botón "Nuevo Juego" -->
     <Button
