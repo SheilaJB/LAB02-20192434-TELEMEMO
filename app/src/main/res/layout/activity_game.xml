@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/design_default_color_on_primary"
+    tools:context=".GameActivity">
+
+    <!-- Rectángulo superior con botones y título
+    porque no entiendo como se usa el menú :'v -->
+    <View
+        android:id="@+id/topRectangle"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="#003049"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón Atrás -->
+    <Button
+        android:id="@+id/bttnAtras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Atrás"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/topRectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Botón Estadística -->
+    <Button
+        android:id="@+id/bttnEstadistica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estadística"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="@id/topRectangle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/rectanguloText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TeleMemo"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintTop_toTopOf="@id/topRectangle"
+        app:layout_constraintBottom_toBottomOf="@id/topRectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.5"/>
+
+    <!-- Cuadrícula de palabras -->
+
+    <!-- Botón Jugar -->
+    <GridLayout
+        android:id="@+id/gridPalabras"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:padding="16dp"
+        android:rowCount="4"
+        app:layout_constraintBottom_toTopOf="@id/btnJugar"
+        app:layout_constraintTop_toBottomOf="@id/topRectangle"
+        app:layout_constraintVertical_bias="0.488"
+        tools:layout_editor_absoluteX="189dp" />
+
+    <!-- TextView para mostrar los mensajes -->
+    <TextView
+        android:id="@+id/textViewMensajes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="#FF0000"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/gridPalabras"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
+
+    <Button
+        android:id="@+id/btnJugar"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="1in"
+        android:layout_height="40dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#669bbc"
+        android:text="Iniciar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
